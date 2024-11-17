@@ -30,25 +30,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Eingabefelder absichern
     function sanitizeInput(input) {
         const sanitized = input.replace(/[<>"'`\/]/g, '').trim();
-        if (!/^[a-zA-ZäöüÄÖÜß\s]*$/.test(sanitized)) { 
+        if (!/^[a-zA-ZäöüÄÖÜß\s.]*$/.test(sanitized)) { 
             return '';
         }
         return sanitized;
     }  
 
-    // Filter-Funktion
+// Filter-Funktion
     function filterTable() {
         const countryFilter = sanitizeInput(filterCountryInput.value.toLowerCase());
         const companyFilter = sanitizeInput(filterCompanyInput.value.toLowerCase());
 
-        table.rows().every(function () {
-            const row = this.data();
-            const showRow =
-                row[0].toLowerCase().includes(countryFilter) &&
-                row[1].toLowerCase().includes(companyFilter);
-            $(this.node()).toggle(showRow); 
+    $.fn.dataTable.ext.search = []; 
+
+    // Filter für Land
+    if (countryFilter) {
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            return data[0].toLowerCase().includes(countryFilter);
         });
     }
+
+    // Filter für Unternehmen
+    if (companyFilter) {
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            return data[1].toLowerCase().includes(companyFilter);
+        });
+    }
+
+    table.draw(); 
+}
 
     // Event-Listener für Filtereingaben mit Validierung
     filterCountryInput.addEventListener('input', () => {
