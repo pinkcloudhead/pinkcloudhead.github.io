@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://code.jquery.com https://cdn.datatables.net 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net https://cdn.datatables.net 'unsafe-inline';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO₂-Footprint Webanwendung</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-success text-white">
+            <div class="container-fluid">
+                <!-- Gimp Logo -->
+                <a class="navbar-brand text-white" href="/index.html">
+                    <img src="images/logo.png" alt="Logo" style="height: 50px; margin-right: 10px;">
+                    CO₂-Footprint weltweit
+                </a>
+    
+                <!-- Burger-Button -->
+                <button
+                    class="navbar-toggler border-0"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Navigation umschalten">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <!-- Navigation -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/about.html">Über uns</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/data.html">Daten</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main mit Text -->
+    <main class="container mt-4">
+        <h2>Willkommen</h2>
+        <p>Diese Seite bietet Informationen zur CO₂-Bilanz großer Unternehmen und Länder weltweit. Es handelt sich um Jahreswerte.</p>
+
+        <!-- Filter -->
+        <div class="mb-3">
+            <label for="filter-country" class="form-label">Nach Land filtern:</label>
+            <input type="text" id="filter-country" class="form-control" placeholder="Land eingeben">
+        </div>
+        <div class="mb-3">
+            <label for="filter-company" class="form-label">Nach Unternehmen filtern:</label>
+            <input type="text" id="filter-company" class="form-control" placeholder="Unternehmen eingeben">
+        </div>
+        <button id="reset-filters" class="btn btn-success btn-sm mb-3">Zurücksetzen</button>
+
+        <!-- Tabelle -->
+        <div class="table-responsive">
+            <table id="emission-table" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Land</th>
+                        <th>Unternehmen</th>
+                        <th>CO₂-Emissionen (Tonnen)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>China</td>
+                        <td>China Coal Energy</td>
+                        <td>5.560.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Saudi Arabien</td>
+                        <td>Saudi Aramco</td>
+                        <td>2.700.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Russland</td>
+                        <td>Gazprom</td>
+                        <td>1.138.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Iran</td>
+                        <td>National Iranian Oil Company</td>
+                        <td>1.036.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Indien</td>
+                        <td>Coal India</td>
+                        <td>1.025.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>USA</td>
+                        <td>ExxonMobil</td>
+                        <td>577.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Südafrika</td>
+                        <td>Eskom Holdings</td>
+                        <td>215.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>USA</td>
+                        <td>Southern Company</td>
+                        <td>145.140.000</td>
+                    </tr>
+                    <tr>
+                        <td>USA</td>
+                        <td>American Electric Power Inc</td>
+                        <td>128.280.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>E.ON S.E.</td>
+                        <td>120.280.000</td>
+                    </tr>
+                    <tr>
+                        <td>Saudi Arabien</td>
+                        <td>Saudi Electric Company</td>
+                        <td>108.590.000</td>
+                    </tr>
+                    <tr>
+                        <td>Italien</td>
+                        <td>Enel S.p.A.</td>
+                        <td>107.290.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>Vattenfall Europe GmbH</td>
+                        <td>89.762.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>Heidelberg Materials AG</td>
+                        <td>63.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>RWE AG</td>
+                        <td>62.100.000</td>
+                    </tr>
+                    <tr>
+                        <td>Frankreich</td>
+                        <td>Danone SA</td>
+                        <td>24.700.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>Thyssenkrupp</td>
+                        <td>24.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>BASF SE</td>
+                        <td>17.900.000</td>
+                    </tr>
+                    <!-- ab hier Dummy Daten -->
+                    <tr>
+                        <td>Deutschland</td>
+                        <td>GreenPower GmbH</td>
+                        <td>17.898.000</td>
+                    </tr>
+                    <tr>
+                        <td>USA</td>
+                        <td>EcoEnergy Inc.</td>
+                        <td>16.500.000</td>
+                    </tr>
+                    <tr>
+                        <td>Indien</td>
+                        <td>Future Fuels Pvt Ltd</td>
+                        <td>15.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Frankreich</td>
+                        <td>Renewable Tech S.A.</td>
+                        <td>14.700.000</td>
+                    </tr>
+                    <tr>
+                        <td>Italien</td>
+                        <td>Sustainable Systems SRL</td>
+                        <td>13.800.000</td>
+                    </tr>
+                    <tr>
+                        <td>Brasilien</td>
+                        <td>SolarVision LTDA</td>
+                        <td>12.300.000</td>
+                    </tr>
+                    <tr>
+                        <td>Kanada</td>
+                        <td>Clear Skies Corp.</td>
+                        <td>11.500.000</td>
+                    </tr>
+                    <tr>
+                        <td>Kroatien</td>
+                        <td>Adriatic Power d.o.o.</td>
+                        <td>11.000.000</td>
+                    </tr>
+                    <tr>
+                        <td>Australien</td>
+                        <td>Pure Energy Solutions</td>
+                        <td>10.700.000</td>
+                    </tr>
+                    <tr>
+                        <td>Japan</td>
+                        <td>Blue Horizon Ltd</td>
+                        <td>9.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Mexiko</td>
+                        <td>EcoPlanet SA</td>
+                        <td>8.800.000</td>
+                    </tr>
+                    <tr>
+                        <td>Bosnien und Herzegowina</td>
+                        <td>Green Rivers d.o.o.</td>
+                        <td>8.800.000</td>
+                    </tr>
+                    <tr>
+                        <td>Spanien</td>
+                        <td>GreenFuture SL</td>
+                        <td>7.600.000</td>
+                    </tr>
+                    <tr>
+                        <td>Montenegro</td>
+                        <td>EcoAdriatic DOO</td>
+                        <td>7.200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Russland</td>
+                        <td>NeoEnergy OAO</td>
+                        <td>6.500.000</td>
+                    </tr>
+                    <tr>
+                        <td>Norwegen</td>
+                        <td>Arctic Wind AS</td>
+                        <td>5.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Albanien</td>
+                        <td>HydroGreen Sh.A.</td>
+                        <td>5.400.000</td>
+                    </tr>
+                    <tr>
+                        <td>Polen</td>
+                        <td>RenewPolska Sp. z o.o.</td>
+                        <td>4.700.000</td>
+                    </tr>
+                    <tr>
+                        <td>Mazedonien</td>
+                        <td>Renew Balkans MKD</td>
+                        <td>4.300.000</td>
+                    </tr>
+                    <tr>
+                        <td>Schweiz</td>
+                        <td>CleanEnergy AG</td>
+                        <td>3.600.000</td>
+                    </tr>
+                    <tr>
+                        <td>Moldawien</td>
+                        <td>Dniester Energy SRL</td>
+                        <td>3.200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Schweden</td>
+                        <td>Nordic Power AB</td>
+                        <td>2.800.000</td>
+                    </tr>
+                    <tr>
+                        <td>Georgien</td>
+                        <td>Caucasus Renewables LLC</td>
+                        <td>2.100.000</td>
+                    </tr>
+                    <tr>
+                        <td>Niederlande</td>
+                        <td>LowImpact BV</td>
+                        <td>1.900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Aserbaidschan</td>
+                        <td>Caspian Green LLC</td>
+                        <td>1.500.000</td>
+                    </tr>
+                    <tr>
+                        <td>Österreich</td>
+                        <td>Alpine Energy KG</td>
+                        <td>1.200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Zypern</td>
+                        <td>Mediterranean Renewables Ltd</td>
+                        <td>1.200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Irland</td>
+                        <td>Emerald Power Ltd</td>
+                        <td>800.000</td>
+                    </tr>
+                    <tr>
+                        <td>Malta</td>
+                        <td>Island Green Energy Ltd</td>
+                        <td>900.000</td>
+                    </tr>
+                    <tr>
+                        <td>Belgien</td>
+                        <td>EcoBe NV</td>
+                        <td>400.000</td>
+                    </tr>
+                    <tr>
+                        <td>Finnland</td>
+                        <td>Polar Energy Oy</td>
+                        <td>300.000</td>
+                    </tr>
+                    <tr>
+                        <td>San Marino</td>
+                        <td>Monte Titano Energy SRL</td>
+                        <td>300.000</td>
+                    </tr>
+                    <tr>
+                        <td>Dänemark</td>
+                        <td>WindNordics A/S</td>
+                        <td>250.000</td>
+                    </tr>
+                    <tr>
+                        <td>Ungarn</td>
+                        <td>GreenFuture Zrt.</td>
+                        <td>200.000</td>
+                    </tr>
+                    <tr>
+                        <td>Monaco</td>
+                        <td>Riviera Renewables S.A.M.</td>
+                        <td>150.000</td>
+                    </tr>
+                    <tr>
+                        <td>Portugal</td>
+                        <td>CleanHorizons LDA</td>
+                        <td>150.000</td>
+                    </tr>
+                    <tr>
+                        <td>Griechenland</td>
+                        <td>EcoMediterranean AE</td>
+                        <td>120.000</td>
+                    </tr>
+                    <tr>
+                        <td>Luxemburg</td>
+                        <td>Lux Renewables S.A.</td>
+                        <td>700.000</td>
+                    </tr>
+                    <tr>
+                        <td>Tschechien</td>
+                        <td>Renewables CZ s.r.o.</td>
+                        <td>100.000</td>
+                    </tr>
+                    <tr>
+                        <td>Liechtenstein</td>
+                        <td>Alpine Renewables AG</td>
+                        <td>100.000</td>
+                    </tr>
+                    <tr>
+                        <td>Slowakei</td>
+                        <td>FuturePower SK</td>
+                        <td>80.000</td>
+                    </tr>
+                    <tr>
+                        <td>Slowenien</td>
+                        <td>EcoVision d.o.o.</td>
+                        <td>50.000</td>
+                    </tr>
+                    <tr>
+                        <td>Vatikanstadt</td>
+                        <td>Holy Solar Energy</td>
+                        <td>50.000</td>
+                    </tr>
+                    <tr>
+                        <td>Luxemburg</td>
+                        <td>GreenLux S.A.</td>
+                        <td>30.000</td>
+                    </tr>
+                    <tr>
+                        <td>Litauen</td>
+                        <td>Baltic Energy UAB</td>
+                        <td>20.000</td>
+                    </tr>
+                    <tr>
+                        <td>Estland</td>
+                        <td>Nordic Renewables OÜ</td>
+                        <td>10.000</td>
+                    </tr>
+                    <tr>
+                        <td>Lettland</td>
+                        <td>Baltic Wind SIA</td>
+                        <td>5.000</td>
+                    </tr>
+                    <tr>
+                        <td>Island</td>
+                        <td>ArcticGreen ehf.</td>
+                        <td>1.000</td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-success text-white text-center py-3 mt-4">
+        &copy; 2024 Klimaschutzinitiative. <a class="text-white" href="/imprint.html">Impressum</a> | <a class="text-white" href="/data-privacy.html">Datenschutz</a>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
