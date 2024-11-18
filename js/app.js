@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ordering: true,
         order: [],
         pageLength: 10,
-        searching: false,
         columnDefs: [
             { targets: 2, type: 'num' }
         ],
