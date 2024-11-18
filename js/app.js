@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ordering: true,
         order: [],
         pageLength: 10,
+        searching: false,
         columnDefs: [
             { targets: 2, type: 'num' }
         ],
@@ -17,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             zeroRecords: "Keine passenden Einträge gefunden",
             info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
             infoEmpty: "Keine Daten verfügbar",
-            search: "Suche:",
             paginate: {
                 first: "Erste",
                 last: "Letzte",
