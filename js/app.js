@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             zeroRecords: "Keine passenden Einträge gefunden",
             info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
             infoEmpty: "Keine Daten verfügbar",
+            infoFiltered: "(gefiltert aus _MAX_ Einträgen)",
             paginate: {
                 first: "Erste",
                 last: "Letzte",
@@ -79,6 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
             $(this.node()).show(); 
         });
         table.order([]).draw(false);
+
+		// Refresh nur auf mobilen Geräten
+		if (window.innerWidth < 768) {
+			location.reload();
+		}
     });
 
     // Klick-Filter auf Länder
