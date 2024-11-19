@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             zeroRecords: "Keine passenden Einträge gefunden",
             info: "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
             infoEmpty: "Keine Daten verfügbar",
-            search: "Suche:",
+            infoFiltered: "(gefiltert aus _MAX_ Einträgen)",
             paginate: {
                 first: "Erste",
                 last: "Letzte",
@@ -62,19 +62,29 @@ document.addEventListener('DOMContentLoaded', () => {
         table.search(sanitizedValue).draw();
     });
 
-    // Filter-Funktion
+// Filter-Funktion
     function filterTable() {
         const countryFilter = sanitizeInput(filterCountryInput.value.toLowerCase());
         const companyFilter = sanitizeInput(filterCompanyInput.value.toLowerCase());
 
-        table.rows().every(function () {
-            const row = this.data();
-            const showRow =
-                row[0].toLowerCase().includes(countryFilter) &&
-                row[1].toLowerCase().includes(companyFilter);
-            $(this.node()).toggle(showRow); 
+    $.fn.dataTable.ext.search = []; 
+
+    // Filter für Land
+    if (countryFilter) {
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            return data[0].toLowerCase().includes(countryFilter);
         });
     }
+
+    // Filter für Unternehmen
+    if (companyFilter) {
+        $.fn.dataTable.ext.search.push(function (settings, data) {
+            return data[1].toLowerCase().includes(companyFilter);
+        });
+    }
+
+    table.draw(); 
+}
 
     // Event-Listener für Filtereingaben mit Validierung
     filterCountryInput.addEventListener('input', () => {
