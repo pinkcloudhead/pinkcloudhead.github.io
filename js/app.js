@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterCompanyInput = document.getElementById('filter-company');
     const resetButton = document.getElementById('reset-filters');
 
+    // Unerlaubte URL Parameter entfernen
+    window.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        for (const [key, value] of params.entries()) {
+            if (!/^[a-zA-Z0-9-_]*$/.test(value)) {
+                console.warn(`Unerlaubter URL-Parameter entdeckt: ${key}=${value}`);
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+    }); 
+
     // DataTable Basis
     const table = $('#emission-table').DataTable({
         paging: true,
@@ -10,7 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
         order: [],
         pageLength: 10,
         columnDefs: [
-            { targets: 2, type: 'num' }
+            {
+                targets: 0, // Land
+                render: DataTable.render.text()
+            },
+            {
+                targets: 1, // Unternehmen
+                render: DataTable.render.text()
+            },
+            { 
+                targets: 2, // Emissionen
+                type: 'num' 
+            }
         ],
         language: {
             lengthMenu: "Zeige _MENU_ Einträge",
@@ -29,12 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Eingabefelder absichern
     function sanitizeInput(input) {
-        const sanitized = input.replace(/[<>"'`\/]/g, '').trim();
-        if (!/^[a-zA-ZäöüÄÖÜß\s]*$/.test(sanitized)) { 
-            return '';
-        }
-        return sanitized;
-    }  
+        return input.replace(/[<>!?=^%',]/g, '');
+    }
+
+    // Sucheingabe validieren
+    const searchInput = $('#emission-table_filter input');
+    searchInput.on('input', function () {
+        const sanitizedValue = sanitizeInput($(this).val());
+        $(this).val(sanitizedValue);
+        table.search(sanitizedValue).draw();
+    });
 
     // Filter-Funktion
     function filterTable() {
@@ -62,7 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Zurücksetzen-Button
-    resetButton.addEventListener('click', () => {
+    resetButton.addEventListener('click', (event) => {
+        event.preventDefault();
         filterCountryInput.value = '';
         filterCompanyInput.value = '';
         table.search('').columns().search('').draw(false); 
@@ -71,6 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         table.order([]).draw(false);
     });
+    
+    // Touch-Unterstützung für Mobile
+    $('#reset-filters').on('touchstart click', function () {
+        filterCountryInput.value = '';
+        filterCompanyInput.value = '';
+        table.search('').columns().search('').draw(false); 
+        table.rows().every(function () {
+            $(this.node()).show(); 
+        });
+        table.order([]).draw(false);
+    });    
 
     // Klick-Filter auf Länder
     $('#emission-table tbody').on('click', 'td:first-child', function () {
